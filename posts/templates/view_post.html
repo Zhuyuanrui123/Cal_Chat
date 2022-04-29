@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block title %}Post by {{ post.get_nickname }}{% endblock %}
+{% block body %}
+<div class="container">
+    <div class="card mb-3">
+        <div class="card-header text-muted">
+            {{ post.get_nickname }} 
+        </div>     
+        <div class="card-body">
+            <h5 class="card-title"></h5>
+            <p class="card-text">{{ post.content }}</p>
+        </div>
+        <div class="card-footer text-muted">
+            <small>{{ post.timestamp|naturaltime }}</small>
+        </div>        
+    </div>
+    <div class="card">
+    <div class="ms-4 mt-4 mb-4">
+        {% if comments %}<h3>Comments ({{ comments.count }})</h3>{% endif %}
+        <ul>
+            {% for comment in comments %}
+            <li>
+                <a href="#" data-toggle="tooltip" data-placement="top" title="{{ comment.timestamp|naturaltime }}" style="text-decoration: none">
+                    {{ comment.get_nickname }}
+                </a>: {{ comment.content }}
+            </li>
+            {% endfor %}
+        </ul>
+        <h4>Add a comment</h4>
+        <form method="POST">
+            {{ form.non_field_errors }}
+            <div class="mb-3">
+                <textarea class="form-control" id="{{ form.content.id_for_label }}" name="{{ form.content.name }}" aria-describedby="postHelp" rows="3" style="width: 98%" required></textarea>
+                <div id="postHelp" class="form-text">You're commenting as Anonymous {{ nickname }}.</div>
+            </div>
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Add comment</button>
+        </form>
+    </div>
+    </div>
+</div>
+{% endblock %}

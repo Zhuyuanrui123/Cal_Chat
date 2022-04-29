@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load account socialaccount %}
+{% block title %}Log in{% endblock %}
+{% block body %}
+<div class="container">
+  <h1 class="display-3 mb-4">Cal Chat</h1>
+  {% block extra %}{% endblock %}
+  <div class="card">
+  <div class="mb-4 ms-4 mt-4">
+    <h2 class="mb-4">Log In</h2>
+    {% get_providers as socialaccount_providers %}
+    {% if socialaccount_providers %}
+    <p>
+      {% for provider in socialaccount_providers %}
+      <a class="btn btn-primary" title="{{ provider.name }}" href="{% provider_login_url provider.id process='login' %}">Sign in with {{ provider.name }}</a> &nbsp;
+      {% endfor %}
+    </p>
+    {% endif %}
+    <p><a class="btn btn-sm btn-secondary" data-bs-toggle="collapse" href="#usernamePassword" role="button" aria-expanded="false" aria-controls="usernamePassword">
+      Log in with username & password
+    </a></p>
+  </div>
+  </div>
+  <div class="collapse mt-2" id="usernamePassword">
+    <div class="card card-body">
+      <form method="POST" class="mt-2 mb-2 ms-2">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+        {% endif %}
+        <button type="submit" class="btn btn-primary">Log in</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

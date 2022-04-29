@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load count_comments %}
+{% block body %}
+<div class="container">
+    <h1 class="display-3 mb-4">Cal Chat</h1>
+    <p><a class="btn btn-primary" href="{% url 'new_post' %}">New Post</a></p>
+    <hr>
+    {% for post in all_posts %}
+    <div class="card mb-3">
+        <div class="card-header text-muted">
+            {{ post.get_nickname }} 
+        </div>     
+        <div class="card-body">
+            <h5 class="card-title"></h5>
+            <p class="card-text">{{ post.content }}</p>
+            {% if all_comments|count_comments:post == 1 %}
+                <a href="{% url 'view_post' id=post.id %}" class="btn btn-sm btn-light">1 comment</a>
+            {% else %}
+                <a href="{% url 'view_post' id=post.id %}" class="btn btn-sm btn-light">{{ all_comments|count_comments:post }} comments</a>
+            {% endif %}
+        </div>
+        <div class="card-footer text-muted">
+            <small>{{ post.timestamp|naturaltime }}</small>
+        </div>        
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

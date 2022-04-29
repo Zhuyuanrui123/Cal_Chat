@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}New Post{% endblock %}
+{% block body %}
+<div class="container">
+  <div class="card">
+    <div class="mb-4 mt-4 ms-4">
+      <h2 class="mb-4">New Post</h2>
+      <form method="POST">
+        {{ form.non_field_errors }}
+        <div class="mb-3">
+          <textarea class="form-control" id="{{ form.content.id_for_label }}" name="{{ form.content.name }}" aria-describedby="postHelp" rows="8" style="width:98%;" required></textarea>
+          <div id="postHelp" class="form-text">You're posting as Anonymous {{ nickname }}.</div>
+        </div>
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Post</button>
+      </form>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

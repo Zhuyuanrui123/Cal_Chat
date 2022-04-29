@@ -1,0 +1,8 @@
+{% extends 'account/login.html' %}
+{% block extra %}
+{% if user.is_authenticated %}
+<div class="alert alert-danger" role="alert">
+    You're logged in as <strong>{{ username }}</strong>, but you're not authorized to access this page. Would you like to login to a different account?
+</div>  
+{% endif %}
+{% endblock %}
